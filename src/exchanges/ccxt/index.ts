@@ -28,7 +28,6 @@ import { GTTError, HTTPError } from '../../lib/errors';
 type ExchangeDefinition = [string, new (opts: any) => ccxt.Exchange];
 // Supported exchanges, minus those with native support
 const exchanges: { [index: string]: ExchangeDefinition } = {
-    _1broker: ['1Broker', ccxt._1broker],
     _1btcxe: ['1BTCXE', ccxt._1btcxe],
     acx: ['ACX', ccxt.acx],
     allcoin: ['Allcoin', ccxt.allcoin],
@@ -60,7 +59,6 @@ const exchanges: { [index: string]: ExchangeDefinition } = {
     btctradeim: ['BtcTrade.im', ccxt.btctradeim],
     btctradeua: ['BTC', ccxt.btctradeua],
     btcturk: ['BTCTurk', ccxt.btcturk],
-    btcx: ['BTCX', ccxt.btcx],
     bxinth: ['BX.in.th', ccxt.bxinth],
     ccex: ['C-CEX', ccxt.ccex],
     cex: ['CEX.IO', ccxt.cex],
@@ -77,7 +75,6 @@ const exchanges: { [index: string]: ExchangeDefinition } = {
     coinmate: ['CoinMate', ccxt.coinmate],
     coinnest: ['coinnest', ccxt.coinnest],
     coinone: ['CoinOne', ccxt.coinone],
-    coinsecure: ['Coinsecure', ccxt.coinsecure],
     coinspot: ['CoinSpot', ccxt.coinspot],
     coolcoin: ['CoolCoin', ccxt.coolcoin],
     cryptopia: ['Cryptopia', ccxt.cryptopia],
@@ -89,7 +86,6 @@ const exchanges: { [index: string]: ExchangeDefinition } = {
     foxbit: ['FoxBit', ccxt.foxbit],
     fybse: ['FYB-SE', ccxt.fybse],
     fybsg: ['FYB-SG', ccxt.fybsg],
-    gatecoin: ['Gatecoin', ccxt.gatecoin],
     gateio: ['Gate.io', ccxt.gateio],
     // gdax: ['GDAX', ccxt.gdax],
     gemini: ['Gemini', ccxt.gemini],
@@ -97,8 +93,6 @@ const exchanges: { [index: string]: ExchangeDefinition } = {
     hadax: ['HADAX', ccxt.hadax],
     hitbtc: ['HitBTC', ccxt.hitbtc],
     hitbtc2: ['HitBTC', ccxt.hitbtc2],
-    huobi: ['Huobi', ccxt.huobi],
-    huobicny: ['Huobi', ccxt.huobicny],
     huobipro: ['Huobi', ccxt.huobipro],
     ice3x: ['ICE3X', ccxt.ice3x],
     independentreserve: ['Independent', ccxt.independentreserve],
@@ -123,9 +117,7 @@ const exchanges: { [index: string]: ExchangeDefinition } = {
     okex: ['OKEX', ccxt.okex],
     paymium: ['Paymium', ccxt.paymium],
     poloniex: ['Poloniex', ccxt.poloniex],
-    qryptos: ['QRYPTOS', ccxt.qryptos],
     quadrigacx: ['QuadrigaCX', ccxt.quadrigacx],
-    quoinex: ['QUOINEX', ccxt.quoinex],
     southxchange: ['SouthXchange', ccxt.southxchange],
     surbitcoin: ['SurBitcoin', ccxt.surbitcoin],
     therock: ['TheRockTrading', ccxt.therock],
@@ -134,10 +126,8 @@ const exchanges: { [index: string]: ExchangeDefinition } = {
     vaultoro: ['Vaultoro', ccxt.vaultoro],
     vbtc: ['VBTC', ccxt.vbtc],
     virwox: ['VirWoX', ccxt.virwox],
-    wex: ['WEX', ccxt.wex],
     xbtce: ['xBTCe', ccxt.xbtce],
     yobit: ['YoBit', ccxt.yobit],
-    yunbi: ['YUNBI', ccxt.yunbi],
     zaif: ['Zaif', ccxt.zaif],
     zb: ['ZB', ccxt.zb],
 };
@@ -311,7 +301,7 @@ export default class CCXTExchangeWrapper implements PublicExchangeAPI, Authentic
                 return null;
             }
             const args = Object.assign({postOnly: order.postOnly, funds: order.funds, clientId: order.clientId}, order.extra);
-            return this.instance.createOrder(id, order.orderType, order.side, order.size.toString(), order.price.toString(), args).then((res: any) => {
+            return this.instance.createOrder(id, order.orderType, order.side, Number(order.size), Number(order.price), args).then((res: any) => {
                 const result: LiveOrder = {
                     productId: order.productId,
                     price: Big(order.price),
