@@ -262,8 +262,8 @@ export default class CCXTExchangeWrapper implements PublicExchangeAPI, Authentic
                 productId: gdaxProduct,
                 price: ZERO,
                 time: new Date(ticker.timestamp),
-                ask: Big(ticker.bid),
-                bid: Big(ticker.ask),
+                ask: Big(ticker.ask),
+                bid: Big(ticker.bid),
                 volume: Big(ticker.baseVolume)
             };
             return t;
